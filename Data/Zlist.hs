@@ -2,6 +2,7 @@ module Data.Zlist
 (
   Zlist,
   zlist,
+  zlist2,
   Data.Zlist.map,
   zmaximum
 ) where
@@ -20,6 +21,9 @@ instance (Show a, Show b) => Show (Zlist a b) where
 
 zlist :: [a] -> Zlist a a
 zlist x = Zlist $ zip x x
+
+zlist2 :: (a -> t) -> (a -> b) -> [a] -> Zlist t b
+zlist2 f g x = Zlist $ zip (f <$> x) (g <$> x)
 
 map :: (b -> c) -> Zlist a b -> Zlist a c
 map = fmap

@@ -42,6 +42,13 @@ spec = do
         let list = zlist ([]::[Integer])
         in show list `shouldBe` ""
 
+  describe "zlist2" $
+    it "builds a list, where left is foo x and right is bar x" $
+      let xs = [1..3] :: [Int]
+          foo x = show x ++ "!"
+          bar x = x + 2
+      in show (zlist2 foo bar xs) `shouldBe` "\"1!\" => 3; \"2!\" => 4; \"3!\" => 5"
+
   describe "zmaximum" $ do
     let check :: (Int -> Int -> Ordering) -> [Int] -> [Int] -> Expectation
         check c l r = zmaximum c (zlist l) `shouldBe` zlist r
