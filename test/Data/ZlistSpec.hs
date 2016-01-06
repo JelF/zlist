@@ -33,7 +33,7 @@ spec = do
         it "obeys associative law" $ property $
           \ x p q ->
             let _ = x :: Zlist Int Int
-                _ = p :: String -> Bool
+                _ = p :: String -> Rational
                 _ = q :: Int -> String
             in fmap (p . q) x == (fmap p . fmap q) x
 
