@@ -12,10 +12,7 @@ import Control.Applicative
 data Zlist a b = Zlist [(a, b)] deriving (Eq)
 
 instance Functor (Zlist a) where
-  fmap f (Zlist x) = Zlist $ fmap' f <$> x
-    where
-      fmap' :: (b -> c) -> (a, b) -> (a, c)
-      fmap' f (a, b) = (a, f b)
+  fmap f (Zlist x) = Zlist $ fmap f <$> x
 
 instance (Show a, Show b) => Show (Zlist a b) where
   show (Zlist x) = join' (show' <$> x) "; "

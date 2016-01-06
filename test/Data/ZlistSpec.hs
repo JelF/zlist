@@ -10,12 +10,12 @@ import Control.Applicative
 import Control.Monad
 import Text.Show.Functions ()
 
-instance (Arbitrary t, Arbitrary a) => Arbitrary (Zlist t a) where
+instance (CoArbitrary t, Arbitrary t, Arbitrary a) => Arbitrary (Zlist t a) where
   arbitrary :: Gen (Zlist t a)
   arbitrary = liftM2 arbitrary' (listOf arbitrary) arbitrary
     where
-      arbitrary' :: [t] -> a -> Zlist t a
-      arbitrary' x y = const y <$> zlist x
+      arbitrary' :: [t] -> (t -> a) -> Zlist t a
+      arbitrary' x generator = generator <$> zlist x
 
 -- `main` is here so that this module can be run from GHCi on its own.  It is
 -- not needed for automatic spec discovery.
