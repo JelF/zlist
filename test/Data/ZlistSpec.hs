@@ -3,7 +3,7 @@
 module Data.ZlistSpec (spec) where
 
 import Test.Hspec
-import Data.Zlist
+import Data.Zlist as Z
 import Test.QuickCheck
 import Control.Applicative
 import Control.Monad
@@ -48,6 +48,11 @@ spec = do
           foo x = show x ++ "!"
           bar x = x + 2
       in show (zlist2 foo bar xs) `shouldBe` "\"1!\" => 3; \"2!\" => 4; \"3!\" => 5"
+
+  describe "filter" $
+    it "filters elements by values" $
+      let l = (* 3) <$> zlist [1..3] :: Zlist Int Int
+      in Z.filter odd l `shouldBe` zlist2 id (* 3) [1, 3]
 
   describe "zmaximum" $ do
     let check :: (Int -> Int -> Ordering) -> [Int] -> [Int] -> Expectation

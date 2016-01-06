@@ -4,6 +4,7 @@ module Data.Zlist
   zlist,
   zlist2,
   Data.Zlist.map,
+  Data.Zlist.filter,
   zmaximum
 ) where
 
@@ -27,6 +28,9 @@ zlist2 f g x = Zlist $ zip (f <$> x) (g <$> x)
 
 map :: (b -> c) -> Zlist a b -> Zlist a c
 map = fmap
+
+filter :: (b -> Bool) -> Zlist t b -> Zlist t b
+filter f (Zlist x) = Zlist $ Prelude.filter (\ (_, b) -> f b) x
 
 zmaximum :: (a -> a -> Ordering) -> Zlist t a -> Zlist t a
 zmaximum f (Zlist inner) = Zlist $ zmaximum' inner []
