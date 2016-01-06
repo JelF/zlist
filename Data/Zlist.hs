@@ -2,7 +2,9 @@ module Data.Zlist
 (
   Zlist,
   zlist,
+  zlist2,
   Data.Zlist.map,
+  Data.Zlist.filter,
   zmaximum
 ) where
 
@@ -21,8 +23,14 @@ instance (Show a, Show b) => Show (Zlist a b) where
 zlist :: [a] -> Zlist a a
 zlist x = Zlist $ zip x x
 
+zlist2 :: (a -> t) -> (a -> b) -> [a] -> Zlist t b
+zlist2 f g x = Zlist $ zip (f <$> x) (g <$> x)
+
 map :: (b -> c) -> Zlist a b -> Zlist a c
 map = fmap
+
+filter :: (b -> Bool) -> Zlist t b -> Zlist t b
+filter f (Zlist x) = Zlist $ Prelude.filter (\ (_, b) -> f b) x
 
 zmaximum :: (a -> a -> Ordering) -> Zlist t a -> Zlist t a
 zmaximum f (Zlist inner) = Zlist $ zmaximum' inner []
