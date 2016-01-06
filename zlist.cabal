@@ -10,7 +10,7 @@ name:                zlist
 -- PVP summary:      +-+------- breaking API changes
 --                   | | +----- non-breaking API additions
 --                   | | | +--- code changes with no API change
-version:             0.2.0.3
+version:             0.2.0.4
 
 -- A short (one-line) description of the package.
 -- synopsis:
@@ -64,10 +64,11 @@ library
 
   -- Base language which the package is written in.
   default-language:    Haskell2010
+  ghc-options:         -Wall
 
 test-suite spec
   default-language:    Haskell2010
-  other-extensions:    InstanceSigs
+  ghc-options:         -Wall
   type:
       exitcode-stdio-1.0
   hs-source-dirs:

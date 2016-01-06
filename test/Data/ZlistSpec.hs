@@ -33,11 +33,14 @@ spec = do
             in fmap (p . q) x == (fmap p . fmap q) x
 
   describe "Show instance" $
-    describe "show" $
+    describe "show" $ do
       it "works" $ do
         show (zlist [1::Integer]) `shouldBe` "1 => 1"
         show (zlist ["1", "2"]) `shouldBe` "\"1\" => \"1\"; \"2\" => \"2\""
         show (show <$> zlist [1::Integer]) `shouldBe` "1 => \"1\""
+      it "can show empty list" $
+        let list = zlist ([]::[Integer])
+        in show list `shouldBe` ""
 
   describe "zmaximum" $ do
     context "empty list" $
