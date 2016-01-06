@@ -43,23 +43,19 @@ spec = do
         in show list `shouldBe` ""
 
   describe "zmaximum" $ do
+    let check :: (Int -> Int -> Ordering) -> [Int] -> [Int] -> Expectation
+        check c l r = zmaximum c (zlist l) `shouldBe` zlist r
+
     context "empty list" $
-      it "returns empty zlist" $
-        zmaximum compare (zlist ([]::[Int])) `shouldBe` zlist []
+      it "returns empty zlist" $  check compare [] []
     context "one element" $
-      it "returns only element" $
-        zmaximum compare (zlist ([1]::[Int])) `shouldBe` zlist [1]
+      it "returns only element" $ check compare [1] [1]
     context "two equal elements" $
-      it "returns both" $
-        zmaximum compare (zlist ([1, 1]::[Int])) `shouldBe` zlist [1, 1]
+      it "returns both" $ check compare [1, 1] [1, 1]
     context "two different elements" $ do
       context "comparator is `compare`" $
-        it "returns biggest" $
-          zmaximum compare (zlist ([1, 2]::[Int])) `shouldBe` zlist [2]
+        it "returns biggest" $ check compare [1, 2] [2]
       context "comparator is `flip compare`" $
-        it "returns lowest" $
-          zmaximum (flip compare) (zlist ([1, 2]::[Int])) `shouldBe` zlist [1]
+        it "returns lowest" $ check (flip compare) [1, 2] [1]
     context "an array of elements" $
-      it "return biggest" $
-        let list = zlist $ [0,2..10] ++ [9, 3, -2] ++ [-1, 1 .. 7] :: Zlist Int Int
-        in zmaximum compare list `shouldBe` zlist [10]
+      it "returns biggest" $ check compare ([0,2..10] ++ [9, 3, -2] ++ [-1, 1 .. 7]) [10]
