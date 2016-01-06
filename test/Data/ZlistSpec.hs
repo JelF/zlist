@@ -1,5 +1,4 @@
 {-# OPTIONS_GHC -fno-warn-orphans -fno-warn-unused-binds #-}
-{-# LANGUAGE InstanceSigs #-}
 
 module Data.ZlistSpec (spec) where
 
@@ -11,11 +10,7 @@ import Control.Monad
 import Text.Show.Functions ()
 
 instance (CoArbitrary t, Arbitrary t, Arbitrary a) => Arbitrary (Zlist t a) where
-  arbitrary :: Gen (Zlist t a)
-  arbitrary = liftM2 arbitrary' (listOf arbitrary) arbitrary
-    where
-      arbitrary' :: [t] -> (t -> a) -> Zlist t a
-      arbitrary' x generator = generator <$> zlist x
+  arbitrary = liftM2 (\e f -> f <$> zlist e) (listOf arbitrary) arbitrary
 
 -- `main` is here so that this module can be run from GHCi on its own.  It is
 -- not needed for automatic spec discovery.
